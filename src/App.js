@@ -1,21 +1,46 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import Header from './Header';
 import Home from './Home';
+import Shop from './Shop';
 import './App.css';
+import { stringLiteral } from '@babel/types';
 
 /*
 page will have unmoving header which needs to be another component
 
-states need to live in App and setState functions are passed as props in comps
-states: cart and page state
+need to move into Shop component
+
 multiple pages of shopping in different categories
 going to make the alphabet, want state addition to self construct from type constructor
 
 going to do research for good CSS settings
 */
 
+function cartReducer(cart, passed) {
+  if (passed.action === 'addToCart') {
+    return [...cart, {
+      itemName: passed.itemName,
+      itemPrice: passed.itemPrice,
+      itemQuantity: passed.itemQuantity
+    }]
+  }
+}
+
 const App = () => {
-  const [pageState, setPageState] = useState<string>('homePage')
+
+  let initialCart = []
+  const [cart, dispatch] = useReducer(cartReducer, initialCart)
+  const [pageState, setPageState] = useState('homePage')
+
+  const addToCart = (item) => {
+    console.log(cart)
+    dispatch({
+      action: 'addToCart',
+      itemName: item.name,
+      itemPrice: item.price,
+      itemQuantity: 1,
+    })
+  }
 
   const shopClick = () => {
     if (pageState === 'homePage') {
@@ -42,7 +67,7 @@ const App = () => {
     return (
       <>
         <Header homeClick={homeClick} shopClick={shopClick} />
-
+        <Shop addToCart={addToCart}/>
       </>
     )
   }
