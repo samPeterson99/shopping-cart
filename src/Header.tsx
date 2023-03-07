@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 type AppProps = {
     shopClick: () => void;
@@ -8,7 +8,7 @@ type AppProps = {
 const Header = ({homeClick, shopClick}: AppProps) => {
     return (
         <div id='header'>
-            <div>logo</div>
+            <div id='headerLogo'>a fake letter store</div>
             <div id='pageBar'>
                 <div onClick={homeClick}>Home</div>
                 <div onClick={shopClick}>Shop</div>
